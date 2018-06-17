@@ -4,3 +4,12 @@ version = "0.1.0"
 authors = ["Rishi Desai <desai.rishi1@gmail.com>"]
 
 [dependencies]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[package.metadata.bootimage]
+default-target = "boredos.json"
