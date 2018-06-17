@@ -1,0 +1,6 @@
+[package]
+name = "boredos"
+version = "0.1.0"
+authors = ["Rishi Desai <desai.rishi1@gmail.com>"]
+
+[dependencies]
