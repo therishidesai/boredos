@@ -1,18 +1,25 @@
-#![feature(panic_implementation)]
-#![feature(core_intrinsics)]
 #![no_std]
 #![no_main]
 
-use core::intrinsics;
 use core::panic::PanicInfo;
 
-#[panic_implementation]
-#[no_mangle]
+#[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
-    unsafe { intrinsics::abort() }
+    loop {}
 }
 
+static HELLO: &[u8] = b"Hello World!";
+
 #[no_mangle]
-pub fn _start() -> ! {
+pub extern "C" fn _start() -> ! {
+    let vga_buffer = 0xb8000 as *mut u8;
+
+    for (i, &byte) in HELLO.iter().enumerate() {
+        unsafe {
+            *vga_buffer.offset(i as isize * 2) = byte;
+            *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
+        }
+    }
+
     loop {}
 }
